@@ -4,6 +4,11 @@
  */
 package View;
 
+import View.Person.FrmGetAllPerson;
+import View.Person.FrmInsertPerson;
+import View.Provider.FrmGetAllProvider;
+import View.Provider.FrmInsertProvider;
+
 /**
  *
  * @author KAAF0
@@ -28,82 +33,71 @@ public class MainFrame extends javax.swing.JFrame {
 
         desktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
-        saveAsMenuItem = new javax.swing.JMenuItem();
-        exitMenuItem = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
-        cutMenuItem = new javax.swing.JMenuItem();
-        copyMenuItem = new javax.swing.JMenuItem();
-        pasteMenuItem = new javax.swing.JMenuItem();
-        deleteMenuItem = new javax.swing.JMenuItem();
-        helpMenu = new javax.swing.JMenu();
-        contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
+        menuFile = new javax.swing.JMenu();
+        menuItemExit = new javax.swing.JMenuItem();
+        menuProvider = new javax.swing.JMenu();
+        menuItemProviderInsert = new javax.swing.JMenuItem();
+        menuItemProviderGetAll = new javax.swing.JMenuItem();
+        menuPerson = new javax.swing.JMenu();
+        menuItemPersonInsert = new javax.swing.JMenuItem();
+        menuItemPersonGetAll = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de directorio telefónico");
 
-        fileMenu.setMnemonic('f');
-        fileMenu.setText("File");
+        menuFile.setText("Archivo");
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open");
-        fileMenu.add(openMenuItem);
-
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Save");
-        fileMenu.add(saveMenuItem);
-
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        fileMenu.add(saveAsMenuItem);
-
-        exitMenuItem.setMnemonic('x');
-        exitMenuItem.setText("Exit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        menuItemExit.setText("Salir");
+        menuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuItemActionPerformed(evt);
+                menuItemExitActionPerformed(evt);
             }
         });
-        fileMenu.add(exitMenuItem);
+        menuFile.add(menuItemExit);
 
-        menuBar.add(fileMenu);
+        menuBar.add(menuFile);
 
-        editMenu.setMnemonic('e');
-        editMenu.setText("Edit");
+        menuProvider.setText("Proveedor");
 
-        cutMenuItem.setMnemonic('t');
-        cutMenuItem.setText("Cut");
-        editMenu.add(cutMenuItem);
+        menuItemProviderInsert.setMnemonic('t');
+        menuItemProviderInsert.setText("Registrar datos");
+        menuItemProviderInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProviderInsertActionPerformed(evt);
+            }
+        });
+        menuProvider.add(menuItemProviderInsert);
 
-        copyMenuItem.setMnemonic('y');
-        copyMenuItem.setText("Copy");
-        editMenu.add(copyMenuItem);
+        menuItemProviderGetAll.setMnemonic('t');
+        menuItemProviderGetAll.setText("Ver datos");
+        menuItemProviderGetAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemProviderGetAllActionPerformed(evt);
+            }
+        });
+        menuProvider.add(menuItemProviderGetAll);
 
-        pasteMenuItem.setMnemonic('p');
-        pasteMenuItem.setText("Paste");
-        editMenu.add(pasteMenuItem);
+        menuBar.add(menuProvider);
 
-        deleteMenuItem.setMnemonic('d');
-        deleteMenuItem.setText("Delete");
-        editMenu.add(deleteMenuItem);
+        menuPerson.setText("Persona");
 
-        menuBar.add(editMenu);
+        menuItemPersonInsert.setText("Registrar datos");
+        menuItemPersonInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPersonInsertActionPerformed(evt);
+            }
+        });
+        menuPerson.add(menuItemPersonInsert);
 
-        helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        menuItemPersonGetAll.setText("Ver datos");
+        menuItemPersonGetAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemPersonGetAllActionPerformed(evt);
+            }
+        });
+        menuPerson.add(menuItemPersonGetAll);
 
-        contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Contents");
-        helpMenu.add(contentMenuItem);
-
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
-        helpMenu.add(aboutMenuItem);
-
-        menuBar.add(helpMenu);
+        menuBar.add(menuPerson);
 
         setJMenuBar(menuBar);
 
@@ -121,26 +115,53 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+    private void menuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExitActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_exitMenuItemActionPerformed
+    }//GEN-LAST:event_menuItemExitActionPerformed
+
+    private void menuItemProviderInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProviderInsertActionPerformed
+        FrmInsertProvider frmInsertProvider = new FrmInsertProvider();
+        
+        this.desktopPane.add(frmInsertProvider);
+        
+        frmInsertProvider.setVisible(true);
+    }//GEN-LAST:event_menuItemProviderInsertActionPerformed
+
+    private void menuItemProviderGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProviderGetAllActionPerformed
+        FrmGetAllProvider frmGetAllProvider = new FrmGetAllProvider();
+        
+        this.desktopPane.add(frmGetAllProvider);
+        
+        frmGetAllProvider.setVisible(true);
+    }//GEN-LAST:event_menuItemProviderGetAllActionPerformed
+
+    private void menuItemPersonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPersonInsertActionPerformed
+        FrmInsertPerson frmInsertPerson = new FrmInsertPerson();
+        
+        this.desktopPane.add(frmInsertPerson);
+        
+        frmInsertPerson.setVisible(true);
+    }//GEN-LAST:event_menuItemPersonInsertActionPerformed
+
+    private void menuItemPersonGetAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPersonGetAllActionPerformed
+        FrmGetAllPerson frmGetAllPerson = new FrmGetAllPerson();
+        
+        this.desktopPane.add(frmGetAllPerson);
+        
+        frmGetAllPerson.setVisible(true);
+    }//GEN-LAST:event_menuItemPersonGetAllActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentMenuItem;
-    private javax.swing.JMenuItem copyMenuItem;
-    private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu editMenu;
-    private javax.swing.JMenuItem exitMenuItem;
-    private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem pasteMenuItem;
-    private javax.swing.JMenuItem saveAsMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenu menuFile;
+    private javax.swing.JMenuItem menuItemExit;
+    private javax.swing.JMenuItem menuItemPersonGetAll;
+    private javax.swing.JMenuItem menuItemPersonInsert;
+    private javax.swing.JMenuItem menuItemProviderGetAll;
+    private javax.swing.JMenuItem menuItemProviderInsert;
+    private javax.swing.JMenu menuPerson;
+    private javax.swing.JMenu menuProvider;
     // End of variables declaration//GEN-END:variables
 
 }
