@@ -30,7 +30,7 @@ createdAt datetime not null,
 updatedAt datetime not null,
 foreign key(idPerson) references tperson(idPerson)
 on delete cascade on update cascade,
-foreign key(idProvider) references tprovider(idPerson)
+foreign key(idProvider) references tprovider(idProvider)
 on delete cascade on update cascade,
 primary key(idPhone)
 ) engine = innodb;

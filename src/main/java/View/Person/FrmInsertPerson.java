@@ -4,17 +4,37 @@
  */
 package View.Person;
 
+import Controller.PersonController;
+import Model.Provider.Provider;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author KAAF0
  */
 public class FrmInsertPerson extends javax.swing.JInternalFrame {
 
+    private final PersonController personController = new PersonController();
+
     /**
      * Creates new form FrmInsertPerson
      */
     public FrmInsertPerson() {
         initComponents();
+
+        this.init();
+    }
+
+    private void init() {
+        DefaultComboBoxModel<String> dcbmCbxNameProvider = new DefaultComboBoxModel<>();
+        cbxNameProvider.setModel(dcbmCbxNameProvider);
+
+        List<Provider> listProvider = personController.getAll();
+
+        for (Provider provider : listProvider) {
+            dcbmCbxNameProvider.addElement(provider.getName());
+        }
     }
 
     /**

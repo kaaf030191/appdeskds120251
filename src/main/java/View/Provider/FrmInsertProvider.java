@@ -4,12 +4,16 @@
  */
 package View.Provider;
 
+import Controller.ProviderController;
+import Model.Provider.Provider;
+
 /**
  *
  * @author KAAF0
  */
 public class FrmInsertProvider extends javax.swing.JInternalFrame {
-
+    private final ProviderController providerController = new ProviderController();
+    
     /**
      * Creates new form FrmInsertProvider
      */
@@ -39,6 +43,11 @@ public class FrmInsertProvider extends javax.swing.JInternalFrame {
         lblName.setText("Nombre");
 
         btnAccept.setText("Guardar datos");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
 
         btnClose.setText("Cerrar ventana");
 
@@ -76,6 +85,14 @@ public class FrmInsertProvider extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        Provider provider = new Provider();
+        
+        provider.setName(txtName.getText());
+        
+        this.providerController.insert(provider);
+    }//GEN-LAST:event_btnAcceptActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
