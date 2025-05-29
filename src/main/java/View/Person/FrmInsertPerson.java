@@ -6,8 +6,12 @@ package View.Person;
 
 import Controller.PersonController;
 import Model.Provider.Provider;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +20,9 @@ import javax.swing.DefaultComboBoxModel;
 public class FrmInsertPerson extends javax.swing.JInternalFrame {
 
     private final PersonController personController = new PersonController();
+
+    private final DefaultComboBoxModel<String> dcbmCbxNameProvider = new DefaultComboBoxModel<>();
+    private final DefaultTableModel dtmTablePhone = new DefaultTableModel();
 
     /**
      * Creates new form FrmInsertPerson
@@ -27,14 +34,18 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
     }
 
     private void init() {
-        DefaultComboBoxModel<String> dcbmCbxNameProvider = new DefaultComboBoxModel<>();
-        cbxNameProvider.setModel(dcbmCbxNameProvider);
+        this.cbxNameProvider.setModel(dcbmCbxNameProvider);
+        this.tablePhone.setModel(dtmTablePhone);
 
-        List<Provider> listProvider = personController.getAll();
+        List<Provider> listProvider = this.personController.getAll();
 
         for (Provider provider : listProvider) {
-            dcbmCbxNameProvider.addElement(provider.getName());
+            this.dcbmCbxNameProvider.addElement(provider.getName());
         }
+
+        this.dtmTablePhone.addColumn("Celular");
+        this.dtmTablePhone.addColumn("Proveedor");
+        this.dtmTablePhone.addColumn("");
     }
 
     /**
@@ -46,6 +57,7 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgGender = new javax.swing.ButtonGroup();
         lblFirstName = new javax.swing.JLabel();
         lblSurName = new javax.swing.JLabel();
         lblDni = new javax.swing.JLabel();
@@ -81,13 +93,20 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
 
         lblGender.setText("Género");
 
+        bgGender.add(radioMale);
         radioMale.setText("Masculino");
 
+        bgGender.add(radioFemale);
         radioFemale.setText("Femenino");
 
         lblBirthDate.setText("Fecha de nacimiento");
 
         btnAccept.setText("Guardar datos");
+        btnAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcceptActionPerformed(evt);
+            }
+        });
 
         btnClose.setText("Cerrar ventana");
 
@@ -96,6 +115,11 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
         lblNameProvider.setText("Proveedor");
 
         btnAddPhone.setText("Agregar");
+        btnAddPhone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPhoneActionPerformed(evt);
+            }
+        });
 
         tablePhone.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,8 +241,49 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPhoneActionPerformed
+        String numberPhone = txtNumberPhone.getText().replaceAll(" ", "");
+        String nameProvider = String.valueOf(cbxNameProvider.getSelectedItem());
+
+        if (numberPhone.isBlank() || nameProvider.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Complete y corrija los datos faltantes.", "Error!", JOptionPane.ERROR_MESSAGE);
+
+            return;
+        }
+
+        for (int i = 0; i < tablePhone.getRowCount(); i++) {
+            if (numberPhone.equals(tablePhone.getValueAt(i, 0))) {
+                JOptionPane.showMessageDialog(this, "El número que se quiere agregar ya existe en la tabla.", "Error!", JOptionPane.ERROR_MESSAGE);
+
+                return;
+            }
+        }
+
+        dtmTablePhone.addRow(new Object[]{
+            numberPhone,
+            nameProvider,
+            ""
+        });
+    }//GEN-LAST:event_btnAddPhoneActionPerformed
+
+    private void btnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptActionPerformed
+        String firstName = txtFirstName.getText().trim();
+        String surName = txtSurName.getText().trim();
+        String dni = txtDni.getText().replaceAll(" ", "");
+        boolean gender = radioMale.isSelected();
+        Date birthDate = dateBirthDate.getDate();
+        
+        String dniRegularExpresion = "^([0-9]{8})?$";
+        Pattern pattern = Pattern.compile(dniRegularExpresion);
+
+        if (firstName.isBlank() || surName.isBlank() || dni.isBlank() || (!radioMale.isSelected() && !radioFemale.isSelected()) || birthDate == null || tablePhone.getRowCount() == 0 || !pattern.matcher(dni).matches()) {
+            JOptionPane.showMessageDialog(this, "Complete y corrija los datos faltantes.", "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAcceptActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgGender;
     private javax.swing.JButton btnAccept;
     private javax.swing.JButton btnAddPhone;
     private javax.swing.JButton btnClose;
