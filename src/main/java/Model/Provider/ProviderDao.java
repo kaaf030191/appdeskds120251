@@ -21,6 +21,7 @@ public class ProviderDao {
     private String script = null;
     private int rowsQuantityAfected = 0;
     private List<Provider> listProvider = null;
+    private Provider provider = null;
 
     public int insert(Provider provider) throws SQLException {
         this.dbc = new DataBaseContext();
@@ -53,18 +54,43 @@ public class ProviderDao {
         ResultSet rows = ps.executeQuery();
 
         while (rows.next()) {
-            Provider provider = new Provider();
+            Provider providerTemp = new Provider();
 
-            provider.setIdProvider(rows.getString("idProvider"));
-            provider.setName(rows.getString("name"));
-            provider.setCreatedAt(rows.getTimestamp("createdAt"));
-            provider.setUpdatedAt(rows.getTimestamp("updatedAt"));
+            providerTemp.setIdProvider(rows.getString("idProvider"));
+            providerTemp.setName(rows.getString("name"));
+            providerTemp.setCreatedAt(rows.getTimestamp("createdAt"));
+            providerTemp.setUpdatedAt(rows.getTimestamp("updatedAt"));
 
-            this.listProvider.add(provider);
+            this.listProvider.add(providerTemp);
         }
 
         this.dbc.connection.close();
 
         return this.listProvider;
+    }
+    
+    public Provider getByName(String name) throws SQLException {
+        this.dbc = new DataBaseContext();
+
+        this.script = "select * from tprovider where name = ?";
+
+        PreparedStatement ps = this.dbc.connection.prepareStatement(this.script);
+        
+        ps.setString(0, name);
+
+        ResultSet rows = ps.executeQuery();
+
+        if (rows.next()) {
+            this.provider = new Provider();
+
+            this.provider.setIdProvider(rows.getString("idProvider"));
+            this.provider.setName(rows.getString("name"));
+            this.provider.setCreatedAt(rows.getTimestamp("createdAt"));
+            this.provider.setUpdatedAt(rows.getTimestamp("updatedAt"));
+        }
+
+        this.dbc.connection.close();
+
+        return this.provider;
     }
 }

@@ -7,7 +7,9 @@ package View.Person;
 import Controller.PersonController;
 import Model.Provider.Provider;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -37,7 +39,7 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
         this.cbxNameProvider.setModel(dcbmCbxNameProvider);
         this.tablePhone.setModel(dtmTablePhone);
 
-        List<Provider> listProvider = this.personController.getAll();
+        List<Provider> listProvider = this.personController.actionGetAllProvider();
 
         for (Provider provider : listProvider) {
             this.dcbmCbxNameProvider.addElement(provider.getName());
@@ -272,13 +274,31 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
         String dni = txtDni.getText().replaceAll(" ", "");
         boolean gender = radioMale.isSelected();
         Date birthDate = dateBirthDate.getDate();
-        
-        String dniRegularExpresion = "^([0-9]{8})?$";
-        Pattern pattern = Pattern.compile(dniRegularExpresion);
 
-        if (firstName.isBlank() || surName.isBlank() || dni.isBlank() || (!radioMale.isSelected() && !radioFemale.isSelected()) || birthDate == null || tablePhone.getRowCount() == 0 || !pattern.matcher(dni).matches()) {
+        if (firstName.isBlank() || surName.isBlank() || dni.isBlank() || (!radioMale.isSelected() && !radioFemale.isSelected()) || birthDate == null || tablePhone.getRowCount() == 0 || !Pattern.compile("^([0-9]{8})?$").matcher(dni).matches()) {
             JOptionPane.showMessageDialog(this, "Complete y corrija los datos faltantes.", "Error!", JOptionPane.ERROR_MESSAGE);
+            
+            return;
         }
+        
+        RequestInsertPerson requestInsertPerson = new RequestInsertPerson();
+        
+        requestInsertPerson.firstName = firstName;
+        requestInsertPerson.surName = surName;
+        requestInsertPerson.dni = dni;
+        requestInsertPerson.gender = gender;
+        requestInsertPerson.birtDate = birthDate;
+        
+        for (int i = 0; i < tablePhone.getRowCount(); i++) {
+            Map phone = new HashMap();
+            
+            phone.put("number", tablePhone.getValueAt(i, 0));
+            phone.put("provider", tablePhone.getValueAt(i, 1));
+            
+            requestInsertPerson.listPhone.add(phone);
+        }
+        
+        this.personController.actionInsert(requestInsertPerson);
     }//GEN-LAST:event_btnAcceptActionPerformed
 
 
