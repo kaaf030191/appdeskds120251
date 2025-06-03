@@ -298,7 +298,29 @@ public class FrmInsertPerson extends javax.swing.JInternalFrame {
             requestInsertPerson.listPhone.add(phone);
         }
         
-        this.personController.actionInsert(requestInsertPerson);
+        ResponseInsertPerson responseInsertPerson = this.personController.actionInsert(requestInsertPerson);
+        
+        if(responseInsertPerson.getType().equals("success")) {
+            JOptionPane.showMessageDialog(this, responseInsertPerson.getListMesagge().get(0), "Correcto!", JOptionPane.INFORMATION_MESSAGE);
+            
+            return;
+        }
+        
+        if(responseInsertPerson.getType().equals("warning")) {
+            JOptionPane.showMessageDialog(this, responseInsertPerson.getListMesagge().get(0), "Warning!", JOptionPane.WARNING_MESSAGE);
+            
+            return;
+        }
+        
+        if(responseInsertPerson.getType().equals("error")) {
+            JOptionPane.showMessageDialog(this, responseInsertPerson.getListMesagge().get(0), "Error!", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
+        if(responseInsertPerson.getType().equals("exception")) {
+            JOptionPane.showMessageDialog(this, responseInsertPerson.getListMesagge().get(0), "Exception!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAcceptActionPerformed
 
 

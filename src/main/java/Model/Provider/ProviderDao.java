@@ -76,7 +76,7 @@ public class ProviderDao {
 
         PreparedStatement ps = this.dbc.connection.prepareStatement(this.script);
         
-        ps.setString(0, name);
+        ps.setString(1, name);
 
         ResultSet rows = ps.executeQuery();
 

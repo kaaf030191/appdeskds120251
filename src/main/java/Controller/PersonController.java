@@ -5,7 +5,9 @@
 package Controller;
 
 import Model.Person.Person;
+import Model.Person.PersonDao;
 import Model.Phone.Phone;
+import Model.Phone.PhoneDao;
 import Model.Provider.Provider;
 import Model.Provider.ProviderDao;
 import View.Person.RequestInsertPerson;
@@ -24,6 +26,8 @@ import java.util.UUID;
 public class PersonController {
 
     private final ProviderDao providerDao = new ProviderDao();
+    private final PersonDao personDao = new PersonDao();
+    private final PhoneDao phoneDao = new PhoneDao();
 
     public List<Provider> actionGetAllProvider() {
         List<Provider> listProvider = new ArrayList<>();
@@ -38,6 +42,8 @@ public class PersonController {
     }
 
     public ResponseInsertPerson actionInsert(RequestInsertPerson requestInsertPerson) {
+        ResponseInsertPerson responseInsertPerson = new ResponseInsertPerson();
+        
         try {
             Person person = new Person();
 
@@ -50,7 +56,7 @@ public class PersonController {
             person.setCreatedAt(new Date());
             person.setUpdatedAt(person.getCreatedAt());
             
-            //Insertar la persona enviando los datos a la capa del modelo
+            this.personDao.insert(person);
 
             for (Map item : requestInsertPerson.listPhone) {
                 Phone phone = new Phone();
@@ -62,12 +68,16 @@ public class PersonController {
                 phone.setCreatedAt(person.getCreatedAt());
                 phone.setUpdatedAt(person.getCreatedAt());
                 
-                //Insertar el teléfono enviando los datos a la capa del modelo
+                this.phoneDao.insert(phone);
             }
+            
+            responseInsertPerson.setSuccess();
+            responseInsertPerson.addMessage("Operación realizada correctamente");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            responseInsertPerson.setException();
+            responseInsertPerson.setMessageException();
         }
 
-        return null;
+        return responseInsertPerson;
     }
 }
