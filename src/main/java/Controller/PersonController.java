@@ -11,6 +11,7 @@ import Model.Phone.PhoneDao;
 import Model.Provider.Provider;
 import Model.Provider.ProviderDao;
 import View.Person.RequestInsertPerson;
+import View.Person.ResponseGetAllPerson;
 import View.Person.ResponseInsertPerson;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -71,13 +72,27 @@ public class PersonController {
                 this.phoneDao.insert(phone);
             }
             
-            responseInsertPerson.setSuccess();
-            responseInsertPerson.addMessage("Operación realizada correctamente");
+            responseInsertPerson.mo.setSuccess();
+            responseInsertPerson.mo.addMessage("Operación realizada correctamente");
         } catch (SQLException ex) {
-            responseInsertPerson.setException();
-            responseInsertPerson.setMessageException();
+            responseInsertPerson.mo.setException();
+            responseInsertPerson.mo.setMessageException();
         }
 
         return responseInsertPerson;
+    }
+    
+    public ResponseGetAllPerson actionGetAll() {
+        ResponseGetAllPerson responseGetAllPerson = new ResponseGetAllPerson();
+        
+        try {
+            responseGetAllPerson.listPerson = personDao.getAll();
+            responseGetAllPerson.mo.setSuccess();
+        } catch (SQLException ex) {
+            responseGetAllPerson.mo.setException();
+            System.out.println(ex.getMessage());
+        }
+
+        return responseGetAllPerson;
     }
 }

@@ -4,17 +4,56 @@
  */
 package View.Person;
 
+import Controller.PersonController;
+import Model.Person.Person;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author KAAF0
  */
 public class FrmGetAllPerson extends javax.swing.JInternalFrame {
 
+    private final PersonController personController = new PersonController();
+    
+    private final DefaultTableModel dtmTablePerson = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
     /**
      * Creates new form FrmGetAllPerson
      */
     public FrmGetAllPerson() {
         initComponents();
+
+        this.init();
+    }
+
+    private void init() {
+        this.tablePerson.setModel(dtmTablePerson);
+
+        this.dtmTablePerson.addColumn("Nombre completo");
+        this.dtmTablePerson.addColumn("DNI");
+        this.dtmTablePerson.addColumn("Género");
+        this.dtmTablePerson.addColumn("Fecha de ancimiento");
+        this.dtmTablePerson.addColumn("Fecha de registro");
+        
+        ResponseGetAllPerson responeGetAllPerson = personController.actionGetAll();
+        
+        if(responeGetAllPerson.mo.getType().equals("success")) {
+            for(Person person: responeGetAllPerson.listPerson) {
+                this.dtmTablePerson.addRow(new Object[]{
+                    person.getFirstName() + " " + person.getSurName(),
+                    person.getDni(),
+                    person.isGender() ? "Masculino" : "Femenino",
+                    person.getBirthDate(),
+                    person.getCreatedAt()
+                });
+            }
+        }
     }
 
     /**

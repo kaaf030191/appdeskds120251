@@ -8,6 +8,7 @@ import View.Person.FrmGetAllPerson;
 import View.Person.FrmInsertPerson;
 import View.Provider.FrmGetAllProvider;
 import View.Provider.FrmInsertProvider;
+import javax.swing.JFrame;
 
 /**
  *
@@ -20,6 +21,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -44,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de directorio telefónico");
+        setResizable(false);
 
         menuFile.setText("Archivo");
 

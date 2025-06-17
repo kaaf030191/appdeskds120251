@@ -5,11 +5,14 @@
 package View.Person;
 
 import General.MessageObject;
+import Model.Person.Person;
+import java.util.List;
 
 /**
  *
  * @author KAAF0
  */
-public class ResponseInsertPerson {
+public class ResponseGetAllPerson {
     public MessageObject mo = new MessageObject();
+    public List<Person> listPerson;
 }

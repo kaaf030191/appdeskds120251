@@ -6,7 +6,9 @@ package Model.Person;
 
 import Model.DataBaseContext;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,5 +44,36 @@ public class PersonDao {
         this.dbc.connection.close();
 
         return rowsQuantityAfected;
+    }
+    
+    public List<Person> getAll() throws SQLException {
+        this.dbc = new DataBaseContext();
+
+        this.listPerson = new ArrayList<>();
+
+        this.script = "select * from tperson";
+
+        PreparedStatement ps = this.dbc.connection.prepareStatement(this.script);
+
+        ResultSet rows = ps.executeQuery();
+
+        while (rows.next()) {
+            Person personTemp = new Person();
+
+            personTemp.setIdPerson(rows.getString("idPerson"));
+            personTemp.setFirstName(rows.getString("firstName"));
+            personTemp.setSurName(rows.getString("surName"));
+            personTemp.setDni(rows.getString("dni"));
+            personTemp.setGender(rows.getBoolean("gender"));
+            personTemp.setBirthDate(rows.getDate("birthDate"));
+            personTemp.setCreatedAt(rows.getTimestamp("createdAt"));
+            personTemp.setUpdatedAt(rows.getTimestamp("updatedAt"));
+
+            this.listPerson.add(personTemp);
+        }
+
+        this.dbc.connection.close();
+
+        return this.listPerson;
     }
 }
